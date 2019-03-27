@@ -1,0 +1,14 @@
+@import "assets/styles/variables.scss";
+
+.notification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  background-color: $blue;
+  color: white;
+
+  label {
+    font-size: 18px;
+  }
+}

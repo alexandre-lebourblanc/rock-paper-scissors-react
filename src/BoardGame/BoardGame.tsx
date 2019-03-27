@@ -6,6 +6,14 @@ interface BoardgameProps {
   player: PLAYER_INTERFACE;
 }
 
+interface ScoreProps {
+  score: number;
+}
+
+const Score: React.SFC<ScoreProps> = props => {
+  return <div className="score">{props.score}</div>;
+};
+
 /**
  * Render a board game
  * @param props
@@ -15,7 +23,7 @@ const Boardgame: React.SFC<BoardgameProps> = props => {
 
   return (
     <div className="boardgame">
-      <h3>{player.type}</h3>
+      <h3>{player.name}</h3>
       <div className="boardgame-weapon-container">
         <div
           className={["boardgame-weapon", !player.weapon ? "empty" : ""].join(
@@ -29,6 +37,7 @@ const Boardgame: React.SFC<BoardgameProps> = props => {
           )}
         </div>
       </div>
+      <Score score={player.score} />
     </div>
   );
 };

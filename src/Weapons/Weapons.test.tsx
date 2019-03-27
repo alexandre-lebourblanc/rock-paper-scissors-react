@@ -6,13 +6,17 @@ import Weapons, { Weapon } from "./Weapons";
 
 describe("weapons", () => {
   it("renders weapons list", () => {
-    const wrapper = shallow(<Weapons weapons={WEAPONS_LIST} />);
+    const wrapper = shallow(
+      <Weapons weapons={WEAPONS_LIST} onClickOnWeapon={() => null} />
+    );
 
     expect(wrapper.exists(".weapons-list")).toEqual(true);
   });
 
   it("should render as many Weapon as declared in WEAPONS_LIST", () => {
-    const wrapper = shallow(<Weapons weapons={WEAPONS_LIST} />);
+    const wrapper = shallow(
+      <Weapons weapons={WEAPONS_LIST} onClickOnWeapon={() => null} />
+    );
 
     expect(wrapper.find(Weapon)).toHaveLength(WEAPONS_LIST.length);
   });

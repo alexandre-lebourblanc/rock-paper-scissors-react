@@ -4,6 +4,7 @@ import "./Weapons.scss";
 
 interface WeaponsProps {
   weapons: WEAPON_INTERFACE[];
+  onClickOnWeapon: ((weapon: WEAPON_INTERFACE) => void);
 }
 
 interface WeaponProps {
@@ -51,7 +52,7 @@ const Weapons: React.SFC<WeaponsProps> = props => {
               <Weapon
                 key={index}
                 weapon={weapon}
-                onClickOnWeapon={weapon => console.log(weapon)}
+                onClickOnWeapon={props.onClickOnWeapon}
               />
             );
           })}
