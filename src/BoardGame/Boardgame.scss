@@ -30,6 +30,14 @@
       border-color: $grey;
     }
 
+    &.waiting {
+      i {
+        color: $grey;
+        font-size: 40px;
+        animation: App-logo-spin infinite 3s linear;
+      }
+    }
+
     &.win {
       box-shadow: 1px 1px 3px 1px $green;
     }
@@ -56,4 +64,13 @@
   border: 1px solid $blue;
   border-radius: 4px;
   text-align: center;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

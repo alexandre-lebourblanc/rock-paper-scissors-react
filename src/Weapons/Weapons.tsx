@@ -5,11 +5,13 @@ import "./Weapons.scss";
 interface WeaponsProps {
   weapons: WEAPON_INTERFACE[];
   onClickOnWeapon: ((weapon: WEAPON_INTERFACE) => void);
+  gameStatus: string;
 }
 
 interface WeaponProps {
   weapon: WEAPON_INTERFACE;
   onClickOnWeapon: ((weapon: WEAPON_INTERFACE) => void);
+  disabled: boolean;
 }
 
 /**
@@ -17,7 +19,7 @@ interface WeaponProps {
  * @param props
  */
 export const Weapon: React.SFC<WeaponProps> = props => {
-  const { weapon } = props;
+  const { weapon, disabled } = props;
 
   /**
    * Call the callback when a user select a weapon
@@ -28,7 +30,11 @@ export const Weapon: React.SFC<WeaponProps> = props => {
 
   return (
     <li
-      className={["weapon", weapon.isActive ? "isActive" : ""].join(" ")}
+      className={[
+        "weapon",
+        weapon.isActive ? "active" : "",
+        disabled ? "disabled" : ""
+      ].join(" ")}
       onClick={clickOnWeapon}
     >
       <i className={weapon.icon} />
@@ -41,7 +47,7 @@ export const Weapon: React.SFC<WeaponProps> = props => {
  * @param props
  */
 const Weapons: React.SFC<WeaponsProps> = props => {
-  const { weapons } = props;
+  const { weapons, gameStatus } = props;
 
   return (
     <div className="weapons">
@@ -50,6 +56,7 @@ const Weapons: React.SFC<WeaponsProps> = props => {
           {weapons.map((weapon, index) => {
             return (
               <Weapon
+                disabled={gameStatus !== "chooseWeapon"}
                 key={index}
                 weapon={weapon}
                 onClickOnWeapon={props.onClickOnWeapon}

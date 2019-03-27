@@ -41,11 +41,22 @@ class Game extends Component<GameProps, GameState> {
     };
   }
 
-  reset = () => {
+  /**
+   * Reinitialize the both players
+   */
+  fullReset = () => {
     this.setState({
       player1: GameLogic.initializePlayer(),
       player2: GameLogic.initializePlayer(true)
     });
+  };
+
+  resetWeapons = () => {
+    let { player1, player2 } = this.state;
+
+    player1.weapon = null;
+    player2.weapon = null;
+    this.setState({ player1, player2, gameStatus: GAME_STATUS[0] });
   };
 
   play = (weapon: WEAPON_INTERFACE) => {
@@ -58,8 +69,11 @@ class Game extends Component<GameProps, GameState> {
         player2.weapon = GameLogic.handleComputerChoice();
         this.setState({ player2 }, () => {
           this.arbitrate(player1, player2, oppositionMode);
+          setTimeout(() => {
+            this.resetWeapons();
+          }, 2000);
         });
-      }, 3000);
+      }, 1000);
     }
   };
 
@@ -92,11 +106,15 @@ class Game extends Component<GameProps, GameState> {
     return (
       <div className="game">
         <div className="boardgames">
-          <Boardgame player={player1} />
-          <Boardgame player={player2} />
+          <Boardgame player={player1} gameStatus={gameStatus} />
+          <Boardgame player={player2} gameStatus={gameStatus} />
         </div>
         {player1.type !== "C" && (
-          <Weapons weapons={WEAPONS_LIST} onClickOnWeapon={this.play} />
+          <Weapons
+            weapons={WEAPONS_LIST}
+            onClickOnWeapon={this.play}
+            gameStatus={gameStatus}
+          />
         )}
         <Notifications gameStatus={gameStatus} result={result} />
       </div>

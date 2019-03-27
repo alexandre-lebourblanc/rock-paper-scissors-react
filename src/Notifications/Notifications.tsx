@@ -10,7 +10,7 @@ const Notifications: React.SFC<NotificationProps> = props => {
   let { gameStatus, result } = props;
 
   return (
-    <div className="notification">
+    <div className="notifications">
       <label>
         {gameStatus === "chooseWeapon" && "Choose your weapon"}
         {gameStatus === "waitingForOpponent" && "Waiting for your opponent"}

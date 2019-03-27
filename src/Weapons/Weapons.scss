@@ -44,13 +44,18 @@
     animation-name: bounceOut;
   }
 
-  &.isActive {
+  &.active {
     background-color: $blue;
     border: 3px solid $white;
 
     i {
       color: $white;
     }
+  }
+
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.7;
   }
 }
 

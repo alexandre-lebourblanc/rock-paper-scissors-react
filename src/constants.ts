@@ -38,10 +38,10 @@ export const OPPOSITION_MODES = ["PvsC", "CvsC"];
 
 export const SCORE_MODES = ["1", "5", "7"];
 
-export const WIN_SCENARIOS: { [key: string]: string } = {
-  rock: "scissors",
-  paper: "rock",
-  scissors: "paper"
+export const WIN_SCENARIOS: { [key: string]: string[] } = {
+  rock: ["scissors"],
+  paper: ["rock"],
+  scissors: ["paper"]
 };
 
 export interface WEAPON_INTERFACE {

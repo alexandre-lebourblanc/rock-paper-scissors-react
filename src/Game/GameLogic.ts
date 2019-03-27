@@ -36,7 +36,7 @@ const getResult = (p1Weapon: string, p2Weapon: string) => {
 
   if (p1Weapon === p2Weapon) {
     res = 0;
-  } else if (WIN_SCENARIOS[p1Weapon] === p2Weapon) {
+  } else if (WIN_SCENARIOS[p1Weapon].includes(p2Weapon)) {
     res = 1;
   } else {
     res = 2;
