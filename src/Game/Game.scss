@@ -1,0 +1,12 @@
+.game {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  min-height: 350px;
+}
+
+.boardgames {
+  display: flex;
+  flex: 1 1;
+}

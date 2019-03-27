@@ -1,0 +1,87 @@
+@import "assets/styles/variables.scss";
+
+.weapons {
+  margin: 0;
+  border: 1px solid $blue;
+  list-style: none;
+  background-color: $blue;
+  color: $white;
+  padding: 20px;
+
+  &-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0;
+  }
+}
+
+.weapon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: $white;
+  border-radius: 50%;
+  width: calc(#{$weapon-font-size} + 10px);
+  height: calc(#{$weapon-font-size} + 10px);
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+
+  i {
+    color: $blue;
+    font-size: $weapon-font-size;
+    margin-left: -3px;
+  }
+
+  &:hover {
+    animation-duration: 0.75s;
+    animation-name: bounceOut;
+  }
+
+  &.isActive {
+    background-color: $blue;
+    border: 3px solid $white;
+
+    i {
+      color: $white;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .weapons-list {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .weapon {
+    width: calc((#{$weapon-font-size} / 1.5) + 10px);
+    height: calc((#{$weapon-font-size} / 1.5) + 10px);
+
+    i {
+      font-size: calc(#{$weapon-font-size} / 1.5);
+    }
+  }
+}
+
+@keyframes bounceOut {
+  20% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  50%,
+  55% {
+    opacity: 1;
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  to {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+}
