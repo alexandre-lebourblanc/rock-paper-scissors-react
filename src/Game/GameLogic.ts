@@ -6,7 +6,10 @@ import {
   WIN_SCENARIOS
 } from "../constants";
 
-const initializePlayer = (isComputer = false, playerIndex = 1) => {
+const initializePlayer = (
+  isComputer = false,
+  playerIndex = 1
+): PLAYER_INTERFACE => {
   let player: PLAYER_INTERFACE = {
     type: isComputer ? "C" : "P",
     name: isComputer ? `Computer ${playerIndex}` : `Player ${playerIndex}`,
@@ -31,7 +34,7 @@ const handleComputerChoice = (hasIA = false) => {
   return weaponObj;
 };
 
-const getResult = (p1Weapon: string, p2Weapon: string) => {
+const getResult = (p1Weapon: string, p2Weapon: string): number => {
   let res: number;
 
   if (p1Weapon === p2Weapon) {

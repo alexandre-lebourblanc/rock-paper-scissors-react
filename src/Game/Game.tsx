@@ -21,7 +21,6 @@ interface GameProps {}
 
 interface GameState {
   oppositionMode: string;
-  scoringMode: string;
   player1: PLAYER_INTERFACE;
   player2: PLAYER_INTERFACE;
   gameStatus: string;
@@ -30,7 +29,6 @@ interface GameState {
 }
 
 class Game extends Component<GameProps, GameState> {
-  // need to add test for game
   // fix countdown in notification and choose your weapon
   // fix issue with boardgame when computer vs computer begin
   // add comments for documentation if needed
@@ -39,7 +37,6 @@ class Game extends Component<GameProps, GameState> {
     super(props);
     this.state = {
       oppositionMode: OPPOSITION_MODES[0],
-      scoringMode: SCORE_MODES[0],
       player1: GameLogic.initializePlayer(),
       player2: GameLogic.initializePlayer(true),
       gameStatus: GAME_STATUS[0],
@@ -75,11 +72,6 @@ class Game extends Component<GameProps, GameState> {
     }
   };
 
-  updateScoringMode = (scoringMode: string) => {
-    this.setState({ scoringMode });
-    this.fullReset();
-  };
-
   resetWeapons = () => {
     let { player1, player2 } = this.state;
 
@@ -94,32 +86,29 @@ class Game extends Component<GameProps, GameState> {
     player1.weapon = weapon;
     this.setState({ player1, gameStatus: GAME_STATUS[1] });
     if (oppositionMode === "PvsC") {
-      setTimeout(() => {
-        player2.weapon = GameLogic.handleComputerChoice();
-        this.setState({ player2 }, () => {
-          this.arbitrate(player1, player2, oppositionMode);
+      player2.weapon = GameLogic.handleComputerChoice();
+      this.setState({ player2 }, () => {
+        this.arbitrate(player1, player2, oppositionMode);
+        if (
+          player1.score < MAX_PVSC_SCORING &&
+          player2.score < MAX_PVSC_SCORING
+        ) {
+          setTimeout(() => {
+            this.resetWeapons();
+          }, 1000);
+        } else {
+          let winner = player1.name;
 
-          if (
-            player1.score < MAX_PVSC_SCORING &&
-            player2.score < MAX_PVSC_SCORING
-          ) {
-            setTimeout(() => {
-              this.resetWeapons();
-            }, 1000);
-          } else {
-            let winner = player1.name;
-
-            if (player2.score === MAX_PVSC_SCORING) {
-              winner = player2.name;
-            }
-            this.setState({ winner: winner, gameStatus: GAME_STATUS[3] });
-            setTimeout(() => {
-              this.fullReset();
-              this.setState({ gameStatus: GAME_STATUS[0] });
-            }, 5000);
+          if (player2.score === MAX_PVSC_SCORING) {
+            winner = player2.name;
           }
-        });
-      }, 1000);
+          this.setState({ winner: winner, gameStatus: GAME_STATUS[3] });
+          setTimeout(() => {
+            this.fullReset();
+            this.setState({ gameStatus: GAME_STATUS[0] });
+          }, 5000);
+        }
+      });
     }
   };
 
