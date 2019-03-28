@@ -37,6 +37,7 @@ const Boardgame: React.SFC<BoardgameProps> = props => {
           ].join(" ")}
         >
           {gameStatus !== "chooseWeapon" &&
+            gameStatus !== "showWinner" &&
             !player.weapon && <i className="fas fa-spinner" />}
           {gameStatus !== "chooseWeapon" &&
             player.weapon && <i className={player.weapon.icon} />}

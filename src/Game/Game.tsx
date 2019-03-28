@@ -3,6 +3,7 @@ import "./Game.scss";
 import Weapons from "../Weapons/Weapons";
 import Boardgame from "../BoardGame/BoardGame";
 import Notifications from "../Notifications/Notifications";
+import Modes from "../Modes/Modes";
 import {
   WEAPONS_LIST,
   WEAPON_INTERFACE,
@@ -10,7 +11,9 @@ import {
   SCORE_MODES,
   PLAYER_INTERFACE,
   GAME_RESULTS_MESSAGES,
-  GAME_STATUS
+  GAME_STATUS,
+  MAX_CVSC_SCORING,
+  MAX_PVSC_SCORING
 } from "../constants";
 import GameLogic from "./GameLogic";
 
@@ -18,26 +21,30 @@ interface GameProps {}
 
 interface GameState {
   oppositionMode: string;
-  scoreMode: string;
+  scoringMode: string;
   player1: PLAYER_INTERFACE;
   player2: PLAYER_INTERFACE;
   gameStatus: string;
   result: string;
+  winner: string;
 }
 
 class Game extends Component<GameProps, GameState> {
-  // hide weapons if mode === "cvsc" || end of game
-  // handle mode (create component)
+  // need to add test for game
+  // fix countdown in notification and choose your weapon
+  // fix issue with boardgame when computer vs computer begin
+  // add comments for documentation if needed
 
   constructor(props: Object) {
     super(props);
     this.state = {
       oppositionMode: OPPOSITION_MODES[0],
-      scoreMode: SCORE_MODES[0],
+      scoringMode: SCORE_MODES[0],
       player1: GameLogic.initializePlayer(),
       player2: GameLogic.initializePlayer(true),
       gameStatus: GAME_STATUS[0],
-      result: ""
+      result: "",
+      winner: ""
     };
   }
 
@@ -49,6 +56,28 @@ class Game extends Component<GameProps, GameState> {
       player1: GameLogic.initializePlayer(),
       player2: GameLogic.initializePlayer(true)
     });
+  };
+
+  playComputerVsComputerMode = () => {
+    let player1 = GameLogic.initializePlayer(true);
+    let player2 = GameLogic.initializePlayer(true, 2);
+
+    this.setState({ player1, player2 }, () => {
+      this.simulate();
+    });
+  };
+
+  updateOppositionMode = (oppositionMode: string) => {
+    this.setState({ oppositionMode });
+    this.fullReset();
+    if (oppositionMode === "CvsC") {
+      this.playComputerVsComputerMode();
+    }
+  };
+
+  updateScoringMode = (scoringMode: string) => {
+    this.setState({ scoringMode });
+    this.fullReset();
   };
 
   resetWeapons = () => {
@@ -64,16 +93,66 @@ class Game extends Component<GameProps, GameState> {
 
     player1.weapon = weapon;
     this.setState({ player1, gameStatus: GAME_STATUS[1] });
-    if ((oppositionMode = "PvsC")) {
+    if (oppositionMode === "PvsC") {
       setTimeout(() => {
         player2.weapon = GameLogic.handleComputerChoice();
         this.setState({ player2 }, () => {
           this.arbitrate(player1, player2, oppositionMode);
-          setTimeout(() => {
-            this.resetWeapons();
-          }, 2000);
+
+          if (
+            player1.score < MAX_PVSC_SCORING &&
+            player2.score < MAX_PVSC_SCORING
+          ) {
+            setTimeout(() => {
+              this.resetWeapons();
+            }, 1000);
+          } else {
+            let winner = player1.name;
+
+            if (player2.score === MAX_PVSC_SCORING) {
+              winner = player2.name;
+            }
+            this.setState({ winner: winner, gameStatus: GAME_STATUS[3] });
+            setTimeout(() => {
+              this.fullReset();
+              this.setState({ gameStatus: GAME_STATUS[0] });
+            }, 5000);
+          }
         });
       }, 1000);
+    }
+  };
+
+  simulate = () => {
+    let { player1, player2, oppositionMode } = this.state;
+
+    if (oppositionMode === "CvsC") {
+      player1.weapon = GameLogic.handleComputerChoice();
+      player2.weapon = GameLogic.handleComputerChoice();
+      this.setState({ player1, player2 }, () => {
+        this.arbitrate(player1, player2, oppositionMode);
+
+        setTimeout(() => {
+          if (
+            player1.score < MAX_CVSC_SCORING &&
+            player2.score < MAX_CVSC_SCORING
+          ) {
+            this.resetWeapons();
+            this.simulate();
+          } else {
+            let winner = player1.name;
+
+            if (player2.score === MAX_CVSC_SCORING) {
+              winner = player2.name;
+            }
+            this.setState({ winner: winner, gameStatus: GAME_STATUS[3] });
+            setTimeout(() => {
+              this.playComputerVsComputerMode();
+              this.setState({ gameStatus: GAME_STATUS[0] });
+            }, 5000);
+          }
+        }, 1000);
+      });
     }
   };
 
@@ -101,22 +180,38 @@ class Game extends Component<GameProps, GameState> {
   };
 
   render() {
-    const { player1, player2, gameStatus, result } = this.state;
+    const {
+      player1,
+      player2,
+      gameStatus,
+      result,
+      oppositionMode,
+      winner
+    } = this.state;
 
     return (
       <div className="game">
+        <Modes
+          oppositionMode={oppositionMode}
+          onOppositionModeChange={this.updateOppositionMode}
+          gameStatus={gameStatus}
+        />
         <div className="boardgames">
           <Boardgame player={player1} gameStatus={gameStatus} />
           <Boardgame player={player2} gameStatus={gameStatus} />
         </div>
-        {player1.type !== "C" && (
+        {oppositionMode === "PvsC" && (
           <Weapons
             weapons={WEAPONS_LIST}
             onClickOnWeapon={this.play}
             gameStatus={gameStatus}
           />
         )}
-        <Notifications gameStatus={gameStatus} result={result} />
+        <Notifications
+          gameStatus={gameStatus}
+          result={result}
+          winner={winner}
+        />
       </div>
     );
   }

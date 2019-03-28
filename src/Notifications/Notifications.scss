@@ -2,13 +2,18 @@
 
 .notifications {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  height: 50px;
+  padding: 10px;
   background-color: $blue;
   color: white;
 
   label {
     font-size: 18px;
+
+    &.winner {
+      margin-top: 5px;
+    }
   }
 }

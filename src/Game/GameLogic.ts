@@ -6,10 +6,10 @@ import {
   WIN_SCENARIOS
 } from "../constants";
 
-const initializePlayer = (isComputer = false) => {
+const initializePlayer = (isComputer = false, playerIndex = 1) => {
   let player: PLAYER_INTERFACE = {
     type: isComputer ? "C" : "P",
-    name: isComputer ? "Computer" : "Player",
+    name: isComputer ? `Computer ${playerIndex}` : `Player ${playerIndex}`,
     score: 0,
     weapon: null,
     hasIA: isComputer

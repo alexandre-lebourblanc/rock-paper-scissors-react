@@ -31,12 +31,17 @@ export const GAME_STATUS = [
   "chooseWeapon",
   "waitingForOpponent",
   "showResult",
+  "showWinner",
   "replay"
 ];
 
 export const OPPOSITION_MODES = ["PvsC", "CvsC"];
 
-export const SCORE_MODES = ["1", "5", "7"];
+export const SCORE_MODES = ["3", "10"];
+
+export const MAX_CVSC_SCORING = 2;
+
+export const MAX_PVSC_SCORING = 3;
 
 export const WIN_SCENARIOS: { [key: string]: string[] } = {
   rock: ["scissors"],
