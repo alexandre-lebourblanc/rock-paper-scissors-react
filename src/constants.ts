@@ -37,9 +37,7 @@ export const GAME_STATUS = [
 
 export const OPPOSITION_MODES = ["PvsC", "CvsC"];
 
-export const SCORE_MODES = ["3", "10"];
-
-export const MAX_CVSC_SCORING = 2;
+export const MAX_CVSC_SCORING = 5;
 
 export const MAX_PVSC_SCORING = 3;
 
