@@ -9,16 +9,8 @@ interface NotificationProps {
 
 const Notifications: React.SFC<NotificationProps> = props => {
   let { gameStatus, result, winner } = props;
-  let [count, setCount] = useState(5);
 
-  // if (gameStatus === "showWinner") {
-  //   let countInterval = setInterval(() => {
-  //     setCount(count - 1);
-  //   }, 1000);
-  //   if (count === 0) {
-  //     clearInterval(countInterval);
-  //   }
-  // }
+  // TODO could add dynamic countdown
 
   return (
     <div className="notifications">

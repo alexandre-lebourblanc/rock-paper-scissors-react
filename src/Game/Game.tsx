@@ -46,7 +46,7 @@ class Game extends Component<GameProps, GameState> {
   }
 
   /**
-   * Reinitialize the both players
+   * Reinitialize with default values the both players
    */
   fullReset = () => {
     this.setState({
@@ -55,6 +55,9 @@ class Game extends Component<GameProps, GameState> {
     });
   };
 
+  /**
+   * Handle the CvsC opposition mode
+   */
   playComputerVsComputerMode = () => {
     let player1 = GameLogic.initializePlayer(true);
     let player2 = GameLogic.initializePlayer(true, 2);
@@ -64,6 +67,9 @@ class Game extends Component<GameProps, GameState> {
     });
   };
 
+  /**
+   * Update the opposition mode state value
+   */
   updateOppositionMode = (oppositionMode: string) => {
     this.setState({ oppositionMode });
     this.fullReset();
@@ -72,6 +78,9 @@ class Game extends Component<GameProps, GameState> {
     }
   };
 
+  /**
+   * Reset the player's weapons after each moves
+   */
   resetWeapons = () => {
     let { player1, player2 } = this.state;
 
@@ -80,6 +89,9 @@ class Game extends Component<GameProps, GameState> {
     this.setState({ player1, player2, gameStatus: GAME_STATUS[0] });
   };
 
+  /**
+   * Handle all the logic about PvsC match for each moves
+   */
   play = (weapon: WEAPON_INTERFACE) => {
     let { player1, player2, oppositionMode } = this.state;
 
@@ -112,6 +124,10 @@ class Game extends Component<GameProps, GameState> {
     }
   };
 
+  /**
+   * Handle all the logic about CvsC match
+   * Call by recursivity simulate until a winner is proclaim
+   */
   simulate = () => {
     let { player1, player2, oppositionMode } = this.state;
 
@@ -145,6 +161,9 @@ class Game extends Component<GameProps, GameState> {
     }
   };
 
+  /**
+   * Method to arbitrate the battle for each move
+   */
   arbitrate = (
     player1: PLAYER_INTERFACE,
     player2: PLAYER_INTERFACE,

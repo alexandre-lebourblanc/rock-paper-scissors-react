@@ -6,14 +6,16 @@ import Notifications from "./Notifications";
 
 describe("notifications", () => {
   it("renders notifications", () => {
-    const wrapper = shallow(<Notifications gameStatus="" result="" />);
+    const wrapper = shallow(
+      <Notifications gameStatus="" result="" winner="" />
+    );
 
     expect(wrapper.exists(".notifications")).toEqual(true);
   });
 
   it("renders 'Choose your weapon' when game status is 'chooseWeapon'", () => {
     const wrapper = shallow(
-      <Notifications gameStatus={GAME_STATUS[0]} result="" />
+      <Notifications gameStatus={GAME_STATUS[0]} result="" winner="" />
     );
 
     expect(wrapper.find("label").text()).toEqual("Choose your weapon");
@@ -24,6 +26,7 @@ describe("notifications", () => {
       <Notifications
         gameStatus={GAME_STATUS[2]}
         result={GAME_RESULTS_MESSAGES[0]}
+        winner=""
       />
     );
 

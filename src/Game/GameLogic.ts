@@ -6,6 +6,11 @@ import {
   WIN_SCENARIOS
 } from "../constants";
 
+/**
+ * Initialize a new player or reset an existing one with default values
+ * @param isComputer
+ * @param playerIndex
+ */
 const initializePlayer = (
   isComputer = false,
   playerIndex = 1
@@ -20,6 +25,10 @@ const initializePlayer = (
   return player;
 };
 
+/**
+ * Return a random weapon for Computer
+ * @param hasIA
+ */
 const handleComputerChoice = (hasIA = false) => {
   let weaponName: string;
 
@@ -34,6 +43,11 @@ const handleComputerChoice = (hasIA = false) => {
   return weaponObj;
 };
 
+/**
+ * Return result of the battle following the win scenarios
+ * @param p1Weapon
+ * @param p2Weapon
+ */
 const getResult = (p1Weapon: string, p2Weapon: string): number => {
   let res: number;
 

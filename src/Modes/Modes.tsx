@@ -16,6 +16,9 @@ interface ModeProps {
 const Modes: React.SFC<ModeProps> = props => {
   const { oppositionMode, gameStatus } = props;
 
+  /**
+   * Call the callback with the new opposition mode
+   */
   const handleOppositionModeChange = () => {
     let newOppositionMode =
       oppositionMode === OPPOSITION_MODES[0]
